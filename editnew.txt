@@ -1,0 +1,115 @@
+<html>
+<body>
+<?php
+include('config.php');
+$query1=mysql_query("select id, name, age from addd");
+echo "<table><tr><td>Name</td><td>Age</td><td></td><td></td>";
+while($query2=mysql_fetch_array($query1))
+{
+echo "<tr><td>".$query2['name']."</td>";
+echo "<td>".$query2['age']."</td>";
+echo "<td><a href='edit.php?id=".$query2['id']."'>Edit</a></td>";
+echo "<td><a href='delete.php?id=".$query2['id']."'>x</a></td><tr>";
+}
+?>
+</ol>
+</table>
+</body>
+</html>
+ 
+
+edit.php
+When edit option in list page is clicked, we will be redirected to edit.php and by using  id value (primary key) values will be fetched from database.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+<html>
+<body>
+<?php
+include('config.php');
+if(isset($_GET['id']))
+{
+$id=$_GET['id'];
+if(isset($_POST['submit']))
+{
+$name=$_POST['name'];
+$age=$_POST['age'];
+$query3=mysql_query("update addd set name='$name', age='$age' where id='$id'");
+if($query3)
+{
+header('location:list.php');
+}
+}
+$query1=mysql_query("select * from addd where id='$id'");
+$query2=mysql_fetch_array($query1);
+?>
+<form method="post" action="">
+Name:<input type="text" name="name" value="<?php echo $query2['name']; ?>" /><br />
+Age:<input type="text" name="age" value="<?php echo $query2['age']; ?>" /><br /><br />
+<br />
+<input type="submit" name="submit" value="update" />
+</form>
+<?php
+}
+?>
+</body>
+</html>
